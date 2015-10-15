@@ -77,6 +77,6 @@ RigidBody* PhysicsSystem::AddWall( vec2 const& pos, vec2 const& dims )
 }
 
 void PhysicsSystem::Update( f32 dt )
-{    
+{
 }
 
