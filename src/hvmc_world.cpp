@@ -88,7 +88,7 @@ void World::SetupScene()
         Entity entity;
 
         vec2 gpos{ 0.f, 0.f };
-        vec2 gdim{ 1280.f, 16.f };
+        vec2 gdim{ 800.f, 16.f };
         vec2 ppos = GraphicsToPhysicsPos( gpos );
         vec2 pdim = GraphicsToPhysicsDim( gdim );
 
@@ -103,8 +103,8 @@ void World::SetupScene()
     {
         Entity entity;
 
-        vec2 gpos{ 0.f, 704.f };
-        vec2 gdim{ 1280.f, 16.f };
+        vec2 gpos{ 0.f, 584.f };
+        vec2 gdim{ 800.f, 16.f };
         vec2 ppos = GraphicsToPhysicsPos( gpos );
         vec2 pdim = GraphicsToPhysicsDim( gdim );
 
@@ -120,7 +120,7 @@ void World::SetupScene()
         Entity entity;
 
         vec2 gpos{ 0.0f, 0.0f };
-        vec2 gdim{ 16.f, 1280.f };
+        vec2 gdim{ 16.f, 800.f };
         vec2 ppos = GraphicsToPhysicsPos( gpos );
         vec2 pdim = GraphicsToPhysicsDim( gdim );
 
@@ -135,8 +135,8 @@ void World::SetupScene()
     {
         Entity entity;
 
-        vec2 gpos{ 1264.f, 0.f };
-        vec2 gdim{ 16.f, 1280.f };
+        vec2 gpos{ 784.f, 0.f };
+        vec2 gdim{ 16.f, 800.f };
         vec2 ppos = GraphicsToPhysicsPos( gpos ); 
         vec2 pdim = GraphicsToPhysicsDim( gdim );
 

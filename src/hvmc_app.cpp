@@ -11,7 +11,7 @@ bool HVMC_App::Init()
         return false;
     }
 
-    window = SDL_CreateWindow( "2D Physics Engine", 100, 100, 1280, 720, SDL_WINDOW_SHOWN );
+    window = SDL_CreateWindow( "2D Physics Engine", 100, 100, 800, 600, SDL_WINDOW_SHOWN );
     if ( nullptr == window )
     {
         fprintf( stderr, "SDL_CreateWindow Error : %s\n", SDL_GetError() );
