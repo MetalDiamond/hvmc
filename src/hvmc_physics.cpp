@@ -80,9 +80,12 @@ void PhysicsSystem::Update( f32 dt )
 {
     for(RigidBody* body : rigidBodies)
     {
-        if(body->gravityMode && body->im != 0)
-            body->velocity += gravity*body->im*dt;
-        body->velocity += body->forces*body->im*dt;
+        if(body->im != 0)
+        {
+            if(body->gravityMode)
+                body->velocity += gravity*dt;
+            body->velocity += body->forces*dt/body->im;
+        }
         body->position += body->velocity*dt;
     }
 }
