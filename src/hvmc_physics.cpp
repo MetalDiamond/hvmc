@@ -77,6 +77,13 @@ RigidBody* PhysicsSystem::AddWall( vec2 const& pos, vec2 const& dims )
 }
 
 void PhysicsSystem::Update( f32 dt )
-{    
+{
+    for(RigidBody* body : rigidBodies)
+    {
+        if(body->gravityMode && body->im != 0)
+            body->velocity += gravity*body->im*dt;
+        body->velocity += body->forces*body->im*dt;
+        body->position += body->velocity*dt;
+    }
 }
 
