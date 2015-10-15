@@ -8,7 +8,7 @@
 enum RigidBodyType
 {
     RIGID_BODY_SPHERE,
-    RIGID_BODY_BOX,
+    RIGID_BODY_BOX
 };
 
 struct Collider

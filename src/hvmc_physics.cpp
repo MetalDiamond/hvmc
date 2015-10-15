@@ -6,10 +6,15 @@ void RigidBody::Update( f32 dt )
 
 void RigidBody::ApplyForce( vec2 const& f )
 {
+    forces += f;
 }
 
 void RigidBody::ApplyImpulse( vec2 const& impulse, vec2 const& contactVector )
 {
+
+    velocity += Normalize(impulse)*Cross(impulse, Normalize(contactVector));
+    vec2 rotated = {-contactVector.y, contactVector.x};
+    angularVelocity += Cross(impulse, Normalize(rotated));
 }
 
 void RigidBody::SetKinematic()
@@ -85,8 +90,10 @@ void PhysicsSystem::Update( f32 dt )
             if(body->gravityMode)
                 body->velocity += gravity*dt;
             body->velocity += body->forces*dt/body->im;
+            body->angularVelocity += body->torque*dt/body->im;
         }
         body->position += body->velocity*dt;
+        body->rotation += body->angularVelocity*dt;
     }
 }
 
