@@ -2,7 +2,7 @@
 .SUFFIXES: .cpp .o
 
 CXX=g++
-CXXFLAGS=-Wall -Werror -g -std=c++14
+CXXFLAGS=-Wall -Werror -g -std=c++11
 
 SDL_PATH=deps/SDL2-2.0.3
 SDL_INC=-I$(SDL_PATH)/include
