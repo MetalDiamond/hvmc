@@ -187,12 +187,25 @@ void World::ThrowBall( vec2 const& pos )
     f32 prad = GraphicsToPhysicsRadius( grad );
     vec2 gpos{ pos.x - grad, pos.y - grad };
     vec2 ppos = GraphicsToPhysicsPos( gpos ) + vec2{ prad, -prad };
-    
+
     entity.graphics = graphics->AddSphere( gpos, grad );
     entity.physics = physics->AddSphere( ppos, prad );
     entity.physics->ApplyImpulse( { 25.f, 10.f }, { 50.f, 0.f } );
 
     entities.push_back( entity );
+}
+
+void World::ThrowUp( vec2 const& pos )
+{
+    for(Entity &e : entities)
+    {
+        if(e.physics->collider.type == RIGID_BODY_SPHERE)
+        {
+            //float radius = e.physics->collider.radius;
+            //if(LengthSquared(e.physics->position - pos) < radius*radius)
+                e.physics->ApplyImpulse({0.f, 40.f}, pos);
+        }
+    }
 }
 
 void World::Cleanup()

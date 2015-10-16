@@ -86,10 +86,10 @@ void HVMC_App::ProcessEvents()
     if ( event.type == SDL_MOUSEBUTTONDOWN )
     {
         vec2 pos{ (f32)event.button.x, (f32)event.button.y };
+        SDL_Keymod modifier = SDL_GetModState();
+
         if ( event.button.button == SDL_BUTTON_LEFT )
         {
-            SDL_Keymod modifier = SDL_GetModState();
-            
             if ( modifier & KMOD_LCTRL )
             {
                 world.ThrowBall( pos );
@@ -102,7 +102,14 @@ void HVMC_App::ProcessEvents()
 
         if ( event.button.button == SDL_BUTTON_RIGHT )
         {
-            world.AddBox( pos );
+            if ( modifier & KMOD_LCTRL )
+            {
+                world.ThrowUp( pos );
+            }
+            else
+            {
+                world.AddBox( pos );
+            }
         }
     }
 }
