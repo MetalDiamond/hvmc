@@ -11,10 +11,20 @@ void RigidBody::ApplyForce( vec2 const& f )
 
 void RigidBody::ApplyImpulse( vec2 const& impulse, vec2 const& contactVector )
 {
+    vec2 rayon = position-contactVector;
+    vec2 local = Normalize(rayon);
+    f32 intesity = Cross(local,impulse);
 
-    velocity += Normalize(impulse)*Cross(impulse, Normalize(contactVector));
-    vec2 rotated = {-contactVector.y, contactVector.x};
-    angularVelocity += Cross(impulse, Normalize(rotated));
+    forces += local*intesity;
+    torque += Cross(rayon,impulse);
+}
+
+void RigidBody::IntegrateVelocities(f32 dt) {
+    position += velocity * dt;
+}
+
+void RigidBody::IntegrateForces(f32 dt) {
+    position += forces * dt;
 }
 
 void RigidBody::SetKinematic()
@@ -85,15 +95,38 @@ void PhysicsSystem::Update( f32 dt )
 {
     for(RigidBody* body : rigidBodies)
     {
-        if(body->im != 0)
+        body->ApplyForce(body->im * gravity);
+
+        /*if(body->im != 0)
         {
             if(body->gravityMode)
                 body->velocity += gravity*dt;
+            body->angularVelocity+=body->torque*dt/body->im;
             body->velocity += body->forces*dt/body->im;
             body->angularVelocity += body->torque*dt/body->im;
         }
+
         body->position += body->velocity*dt;
-        body->rotation += body->angularVelocity*dt;
+        body->rotation += body->angularVelocity*dt;*/
+    }
+
+    for (RigidBody* a : rigidBodies) {
+        for(RigidBody* b : rigidBodies) {
+
+            CollisionInfo colInfo;
+
+            if (CollisionInfo::Collide(a, b, colInfo)) {
+                std::cout << "Ca collide ma gueule" << std::endl;
+            }
+        }
+    }
+
+    for(RigidBody* body : rigidBodies)
+    {
+        body->IntegrateForces(dt);
+        body->IntegrateVelocities(dt);
+
+        body->forces = {0.0, 0.0};
     }
 }
 
