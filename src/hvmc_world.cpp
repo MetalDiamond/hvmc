@@ -203,7 +203,7 @@ void World::ThrowUp( vec2 const& pos )
         {
             //float radius = e.physics->collider.radius;
             //if(LengthSquared(e.physics->position - pos) < radius*radius)
-                e.physics->ApplyImpulse({0.f, 40.f}, pos);
+                e.physics->ApplyImpulse({0.f, 10.f}, GraphicsToPhysicsPos(pos));
         }
     }
 }

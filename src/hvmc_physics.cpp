@@ -11,12 +11,12 @@ void RigidBody::ApplyForce( vec2 const& f )
 
 void RigidBody::ApplyImpulse( vec2 const& impulse, vec2 const& contactVector )
 {
-    vec2 rayon = position-contactVector;
-    vec2 local = Normalize(rayon);
-    f32 intesity = Cross(local,impulse);
+    vec2 rayon = contactVector-position;
+    //vec2 local = Normalize(rayon);
+    //f32 intensity = Cross(local,impulse);
 
-    forces += local*intesity;
-    torque += Cross(rayon,impulse);
+    velocity += impulse;//*intensity;
+    angularVelocity += Cross(impulse, rayon);
 }
 
 void RigidBody::IntegrateVelocities(f32 dt) {
@@ -129,6 +129,7 @@ void PhysicsSystem::Update( f32 dt )
         body->IntegrateVelocities(dt);
 
         body->forces = {0.0, 0.0};
+        body->torque = 0.0;
     }
 }
 
