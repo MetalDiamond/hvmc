@@ -31,6 +31,12 @@ struct RigidBody
     void Update( f32 dt );
     
     void ApplyForce( vec2 const& force );
+
+    /**
+     * @brief ApplyImpulse
+     * @param impulse intensity of the force
+     * @param contactVector position of the contact relative to the world
+     */
     void ApplyImpulse( vec2 const& impulse, vec2 const& contactVector );
     
     void SetKinematic();
