@@ -15,7 +15,7 @@ enum RigidBodyType
 struct Collider
 {
     Collider() {}
-    RigidBodyType type;
+    RigidBodyType type
 
     union
     {
