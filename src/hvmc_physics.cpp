@@ -21,10 +21,12 @@ void RigidBody::ApplyImpulse( vec2 const& impulse, vec2 const& contactVector )
 
 void RigidBody::IntegrateVelocities(f32 dt) {
     position += velocity * dt;
+    rotation += angularVelocity * dt;
 }
 
 void RigidBody::IntegrateForces(f32 dt) {
-    position += forces * dt;
+    velocity += forces * dt;
+    angularVelocity += torque * dt;
 }
 
 void RigidBody::SetKinematic()
