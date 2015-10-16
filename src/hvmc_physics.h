@@ -2,6 +2,7 @@
 #define HVMC_PHYSICS_H
 
 #include <vector>
+#include <iostream>
 #include "hvmc_math.h"
 #include "hvmc_collisions.h"
 
@@ -38,6 +39,9 @@ struct RigidBody
      * @param contactVector position of the contact relative to the world
      */
     void ApplyImpulse( vec2 const& impulse, vec2 const& contactVector );
+
+    void IntegrateVelocities(f32 dt);
+    void IntegrateForces(f32 dt);
     
     void SetKinematic();
     void SetGravityMode( int mode );
