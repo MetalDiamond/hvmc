@@ -2,24 +2,28 @@
 #define HVMC_COLLISIONS_H
 
 #include "hvmc_math.h"
-//#include "hvmc_physics.h"
 
 struct RigidBody;
 
-class CollisionInfo {
-
-private:
-
-public:
-    CollisionInfo();
-    ~CollisionInfo();
-
-    static bool Collide(RigidBody *a, RigidBody *b, const CollisionInfo &info);
+struct CollisionInfo
+{
+    vec2 position; // impact position
+    // etc ...
 };
 
-//colision(circle, box);
-//colision(circle, circle);
-//colision(box, box);
+class Collisions {
+
+private:
+    Collisions() {} // not instantiable (static class)
+
+    static bool sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &info);
+    static bool boxToBox(RigidBody *box1, RigidBody *box2, CollisionInfo &info);
+    static bool sphereToSphere(RigidBody *sphere1, RigidBody *sphere2, CollisionInfo &info);
+
+public:
+
+    static bool Collide(RigidBody *a, RigidBody *b, CollisionInfo &info);
+};
 
 #endif
 

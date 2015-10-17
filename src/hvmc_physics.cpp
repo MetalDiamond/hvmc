@@ -1,4 +1,5 @@
 #include "hvmc_physics.h"
+#include <iostream>
 
 void RigidBody::Update( f32 dt )
 {
@@ -26,7 +27,9 @@ void RigidBody::IntegrateVelocities(f32 dt) {
 
 void RigidBody::IntegrateForces(f32 dt) {
     velocity += forces * dt;
+    forces = {0.0, 0.0};
     angularVelocity += torque * dt;
+    torque = 0.0;
 }
 
 void RigidBody::SetKinematic()
@@ -98,27 +101,21 @@ void PhysicsSystem::Update( f32 dt )
     for(RigidBody* body : rigidBodies)
     {
         body->ApplyForce(body->im * gravity);
-
-        /*if(body->im != 0)
-        {
-            if(body->gravityMode)
-                body->velocity += gravity*dt;
-            body->angularVelocity+=body->torque*dt/body->im;
-            body->velocity += body->forces*dt/body->im;
-            body->angularVelocity += body->torque*dt/body->im;
-        }
-
-        body->position += body->velocity*dt;
-        body->rotation += body->angularVelocity*dt;*/
     }
 
-    for (RigidBody* a : rigidBodies) {
-        for(RigidBody* b : rigidBodies) {
+    for (unsigned int i=0; i<rigidBodies.size()-1; ++i)
+    {
+        for(unsigned int j=i+1; j<rigidBodies.size(); ++j)
+        {
+            RigidBody *a = rigidBodies[i];
+            RigidBody *b = rigidBodies[j];
+            if(a->im > 0 || b->im > 0) // if at least one of the two bodies is not kinematic
+            {
+                CollisionInfo colInfo;
 
-            CollisionInfo colInfo;
-
-            if (CollisionInfo::Collide(a, b, colInfo)) {
-                std::cout << "Ca collide ma gueule" << std::endl;
+                if (Collisions::Collide(a, b, colInfo)) {
+                    std::cout << "Collision entre l'objet " << i << " et " << j << std::endl;
+                }
             }
         }
     }
@@ -127,9 +124,6 @@ void PhysicsSystem::Update( f32 dt )
     {
         body->IntegrateForces(dt);
         body->IntegrateVelocities(dt);
-
-        body->forces = {0.0, 0.0};
-        body->torque = 0.0;
     }
 }
 

@@ -2,7 +2,6 @@
 #define HVMC_PHYSICS_H
 
 #include <vector>
-#include <iostream>
 #include "hvmc_math.h"
 #include "hvmc_collisions.h"
 

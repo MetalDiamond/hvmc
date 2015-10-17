@@ -201,9 +201,10 @@ void World::ThrowUp( vec2 const& pos )
     {
         if(e.physics->collider.type == RIGID_BODY_SPHERE)
         {
-            //float radius = e.physics->collider.radius;
-            //if(LengthSquared(e.physics->position - pos) < radius*radius)
-                e.physics->ApplyImpulse({0.f, 10.f}, GraphicsToPhysicsPos(pos));
+            vec2 mousePos = GraphicsToPhysicsPos(pos);
+            float radius = e.physics->collider.radius;
+            if(LengthSquared(e.physics->position - mousePos) < radius*radius)
+                e.physics->ApplyImpulse({0.f, 10.f}, mousePos);
         }
     }
 }
