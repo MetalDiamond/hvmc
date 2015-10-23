@@ -19,9 +19,22 @@ bool Collisions::Collide(RigidBody *a, RigidBody *b, CollisionInfo &info)
     }
 }
 
+inline float clamp(float n, float lower, float upper) {
+  return std::max(lower, std::min(n, upper));
+}
+
 bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &info)
 {
-    return false;
+    //translation
+    vec2 nearest;
+    vec2 for_clamp=box->collider.dims/2;
+    vec2 sphere_in_box_world = sphere->position-box->position;
+    nearest.x=clamp(sphere_in_box_world.x,-for_clamp.x,for_clamp.x);
+    nearest.y=clamp(sphere_in_box_world.y,-for_clamp.y,for_clamp.y);
+
+    float distance_au_carre = LengthSquared(sphere_in_box_world-nearest);
+    float rayon_au_carre = sphere->collider.radius*sphere->collider.radius;
+    return distance_au_carre<rayon_au_carre;
 }
 
 bool Collisions::boxToBox(RigidBody *box1, RigidBody *box2, CollisionInfo &info)
