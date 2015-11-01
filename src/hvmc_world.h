@@ -30,6 +30,12 @@ struct World
     void Render();
     void Cleanup();
 
+
+public:
+    static vec2 GraphicsToPhysicsPos(const vec2 &v);
+    static vec2 PhysicsToGraphicsPos(const vec2 &v);
+    static f32 GraphicsToPhysicsRadius(f32 r);
+    static vec2 GraphicsToPhysicsDim(const vec2 &v);
 private:
     PhysicsSystem* physics = nullptr; 
     GraphicsSystem* graphics = nullptr;

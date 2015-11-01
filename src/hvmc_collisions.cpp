@@ -32,9 +32,10 @@ bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &i
     nearest.x=clamp(sphere_in_box_world.x,-for_clamp.x,for_clamp.x);
     nearest.y=clamp(sphere_in_box_world.y,-for_clamp.y,for_clamp.y);
 
-    float distance_au_carre = LengthSquared(sphere_in_box_world-nearest);
-    float rayon_au_carre = sphere->collider.radius*sphere->collider.radius;
-    return distance_au_carre<rayon_au_carre;
+    float dist = LengthSquared(sphere_in_box_world-nearest);
+    float radius = sphere->collider.radius*sphere->collider.radius;
+
+    return dist < radius;
 }
 
 bool Collisions::boxToBox(RigidBody *box1, RigidBody *box2, CollisionInfo &info)

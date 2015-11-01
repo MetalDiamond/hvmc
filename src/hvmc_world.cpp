@@ -10,39 +10,42 @@
 namespace
 {
 
-static const vec2 graphicsWorldSize = { 1280.f, 720.f };
-static const vec2 physicsWorldSize = { 50.f, 50.f * 9.f / 16.f };
+//static const vec2 graphicsWorldSize = { 1280.f, 720.f };
+//static const vec2 physicsWorldSize = { 50.f, 50.f * 9.f / 16.f };
+
+static const vec2 graphicsWorldSize = { 800.f, 600.f };
+static const vec2 physicsWorldSize = { 50.f, 50.f * 3.f / 4.f };
 
 static const f32 physicsToGraphicsW = graphicsWorldSize.x / physicsWorldSize.x;
 static const f32 physicsToGraphicsH = graphicsWorldSize.y / physicsWorldSize.y;
 static const f32 graphicsToPhysicsW = physicsWorldSize.x / graphicsWorldSize.x;
 static const f32 graphicsToPhysicsH = physicsWorldSize.y / graphicsWorldSize.y;
 
-vec2 GraphicsToPhysicsPos( vec2 const& v )
+}
+
+vec2 World::GraphicsToPhysicsPos( vec2 const& v )
 {
     vec2 result = { v.x * graphicsToPhysicsW, physicsWorldSize.y - v.y * graphicsToPhysicsH };
     return result;
 }
 
-vec2 PhysicsToGraphicsPos( vec2 const& v )
+vec2 World::PhysicsToGraphicsPos( vec2 const& v )
 {
     vec2 result = { v.x * physicsToGraphicsW, graphicsWorldSize.y - v.y * physicsToGraphicsH };
     return result;
 }
 
-f32 GraphicsToPhysicsRadius( f32 r )
+f32 World::GraphicsToPhysicsRadius( f32 r )
 {
     f32 result = r * graphicsToPhysicsW;
     return result;
 }
 
-vec2 GraphicsToPhysicsDim( vec2 const& v )
+vec2 World::GraphicsToPhysicsDim( vec2 const& v )
 {
     vec2 result = { v.x * graphicsToPhysicsW, v.y * graphicsToPhysicsH };
     return result;
 }
-
-};
 
 bool World::Init( SDL_Renderer* renderer )
 {
