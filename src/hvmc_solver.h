@@ -4,8 +4,10 @@
 #include "hvmc_physics.h"
 
 class Contrainte{
+protected:
+    std::vector<int> points;
 public:
-    virtual float C(float x, float y, float r)=0;
+    virtual float C(int id)=0;
     virtual vec3 deltaP();
 };
 
