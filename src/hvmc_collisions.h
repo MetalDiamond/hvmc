@@ -10,7 +10,7 @@ enum {SPHERE_TO_SPHERE, SPHERE_TO_BOX, BOX_TO_BOX};
 struct CollisionInfo
 {
     int type;
-    vec2 intersection; // impact position
+    //vec2 intersection; // impact position
     // etc ...
 };
 

@@ -38,7 +38,7 @@ bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &i
     if(dist < radius)
     {
         float realDist = sqrt(dist);
-        info.intersection = (box->position + nearest) + (sphere_in_box_world*(realDist-sphere->collider.radius)/realDist)/2;
+        //info.intersection = (box->position + nearest) + (sphere_in_box_world*(realDist-sphere->collider.radius)/realDist)/2;
         info.type = SPHERE_TO_BOX;
         return true;
     }
