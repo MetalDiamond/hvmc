@@ -136,12 +136,9 @@ void PhysicsSystem::Update( f32 dt )
             {
                 CollisionInfo colInfo;
 
-                if (Collisions::Collide(a, b, colInfo)) {
+                if (Collisions::Collide(a, b, colInfo))
+                {
 
-                    //a->velocity = -1 * a->velocity;
-                    //a->angularVelocity = - a->angularVelocity;
-                    //b->velocity = -1 * b->velocity;
-                    //b->angularVelocity = - b->angularVelocity;
                 }
             }
         }

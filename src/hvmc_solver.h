@@ -3,27 +3,33 @@
 
 #include "hvmc_physics.h"
 
-class Contrainte{
+class Constraint
+{
 protected:
-    friend class Solver;
-    std::vector<int> points;
+    std::vector<int> bodies;
 public:
-    virtual float C(int id)=0;
-    virtual vec3 getlambda(int p)=0;
-    virtual vec3 getgradient(int p)=0;
-    virtual ~Contrainte();
+    virtual float C() = 0;
+    virtual vec3 getGradient(RigidBody* body);
+    virtual float getLambda() {return 1;}
+    const std::vector<int>& getBodies() {return bodies;}
 };
 
+class SphereToSphereConstraint : public Constraint
+{
+public:
+    SphereToSphereConstraint(RigidBody* sphere1, RigidBody* sphere2);
+    virtual float C();
+};
 
 class Solver
 {
 private:
 
-    std::vector<Contrainte * > contraintes;
+    std::vector<Constraint * > contraintes;
 
 public:
     void resolve(std::vector<RigidBody*> rigidBodies, int nbiteration);
-    void pushConstraint(Contrainte * contrainte);
+    void pushConstraint(Constraint * Contrainte);
     void clear();
 };
 
