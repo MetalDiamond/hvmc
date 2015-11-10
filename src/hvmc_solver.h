@@ -5,17 +5,26 @@
 
 class Contrainte{
 protected:
+    friend class Solver;
     std::vector<int> points;
 public:
     virtual float C(int id)=0;
-    virtual vec3 deltaP();
+    virtual vec3 getlambda(int p)=0;
+    virtual vec3 getgradient(int p)=0;
+    virtual ~Contrainte();
 };
 
 
 class Solver
 {
+private:
+
+    std::vector<Contrainte * > contraintes;
+
 public:
-    Solver();
+    void resolve(std::vector<RigidBody*> rigidBodies, int nbiteration);
+    void pushConstraint(Contrainte * contrainte);
+    void clear();
 };
 
 #endif // SOLVER_H

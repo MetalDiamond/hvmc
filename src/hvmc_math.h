@@ -22,6 +22,27 @@ struct vec3{
     f32 x, y, z;
 };
 
+
+inline vec3 operator*( vec3 const& v, f32 s )
+{
+    vec3 result{ v.x * s, v.y * s ,v.z * s};
+    return result;
+}
+
+
+
+inline vec3 operator*( f32 s ,vec3 const& v)
+{
+    return v*s;
+}
+
+inline vec3 operator*( vec3 const& v, vec3 const& w)
+{
+    vec3 result{ v.x * w.x, v.y * w.y ,v.z * w.z};
+    return result;
+}
+
+
 struct vec2
 {
     f32 x, y;
