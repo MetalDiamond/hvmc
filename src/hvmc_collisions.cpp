@@ -27,15 +27,23 @@ bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &i
 {
     //translation
     vec2 nearest;
-    vec2 for_clamp=box->collider.dims/2;
+    vec2 clamp_box=box->collider.dims/2;
     vec2 sphere_in_box_world = sphere->position-box->position;
-    nearest.x=clamp(sphere_in_box_world.x,-for_clamp.x,for_clamp.x);
-    nearest.y=clamp(sphere_in_box_world.y,-for_clamp.y,for_clamp.y);
+    nearest.x=clamp(sphere_in_box_world.x,-clamp_box.x,clamp_box.x);
+    nearest.y=clamp(sphere_in_box_world.y,-clamp_box.y,clamp_box.y);
 
     float dist = LengthSquared(sphere_in_box_world-nearest);
     float radius = sphere->collider.radius*sphere->collider.radius;
 
-    return dist < radius;
+    if(dist < radius)
+    {
+        float realDist = sqrt(dist);
+        info.intersection = (box->position + nearest) + (sphere_in_box_world*(realDist-sphere->collider.radius)/realDist)/2;
+        info.type = SPHERE_TO_BOX;
+        return true;
+    }
+    else
+        return false;
 }
 
 bool Collisions::boxToBox(RigidBody *box1, RigidBody *box2, CollisionInfo &info)
@@ -44,7 +52,7 @@ bool Collisions::boxToBox(RigidBody *box1, RigidBody *box2, CollisionInfo &info)
     if(abs(diff.x) < (box1->collider.dims.x + box2->collider.dims.y)/2
             && abs(diff.y) < (box1->collider.dims.y + box2->collider.dims.y)/2)
     {
-        // fill info
+        info.type = BOX_TO_BOX;
         return true;
     }
     return false;
@@ -55,7 +63,8 @@ bool Collisions::sphereToSphere(RigidBody *sphere1, RigidBody *sphere2, Collisio
     float dist = sphere1->collider.radius + sphere2->collider.radius;
     if(LengthSquared(sphere1->position - sphere2->position) < dist*dist)
     {
-        // fill info
+        //info.intersection = (sphere1->position - sphere2->position)
+        info.type = SPHERE_TO_SPHERE;
         return true;
     }
     else

@@ -112,29 +112,18 @@ void PhysicsSystem::Update( f32 dt )
 
         vec2 pos = World::PhysicsToGraphicsPos(a->position);
 
-        if (a->collider.type == RIGID_BODY_SPHERE) {
+        // loop
 
-            //std::cout << "DEBUG Pos : (" << pos.x << "," << pos.y << ")" << std::endl;
+        while(pos.x > 800.f)
+            pos.x -= 800.f;
+        while(pos.y > 600.f)
+            pos.y -= 600.f;
+        while(pos.x < 0.f)
+            pos.x += 800.f;
+        while(pos.y < 0.f)
+            pos.y += 600.f;
 
-            vec2 newPos;
-
-            if (pos.x > 800.f) {
-                a->position = World::GraphicsToPhysicsPos(vec2{0.f, pos.y});
-            }
-
-            if (pos.y > 600.f) {
-                a->position = newPos = World::GraphicsToPhysicsPos(vec2{pos.x, 0.f});
-            }
-
-            if (pos.x < 0.f) {
-                a->position = newPos = World::GraphicsToPhysicsPos(vec2{800.f, pos.y});
-            }
-
-            if (pos.y < 0.f) {
-                a->position = newPos = World::GraphicsToPhysicsPos(vec2{pos.x, 600.f});
-            }
-
-        }
+        a->position = World::GraphicsToPhysicsPos(pos);
     }
 
     for (unsigned int i=0; i<rigidBodies.size()-1; ++i)
@@ -148,7 +137,11 @@ void PhysicsSystem::Update( f32 dt )
                 CollisionInfo colInfo;
 
                 if (Collisions::Collide(a, b, colInfo)) {
-                    //std::cout << "Collision entre l'objet " << i << " et " << j << std::endl;
+
+                    //a->velocity = -1 * a->velocity;
+                    //a->angularVelocity = - a->angularVelocity;
+                    //b->velocity = -1 * b->velocity;
+                    //b->angularVelocity = - b->angularVelocity;
                 }
             }
         }

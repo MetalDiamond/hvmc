@@ -5,9 +5,12 @@
 
 struct RigidBody;
 
+enum {SPHERE_TO_SPHERE, SPHERE_TO_BOX, BOX_TO_BOX};
+
 struct CollisionInfo
 {
-    vec2 position; // impact position
+    int type;
+    vec2 intersection; // impact position
     // etc ...
 };
 
