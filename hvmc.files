@@ -13,3 +13,5 @@ src/hvmc_utils.h
 src/hvmc_world.cpp
 src/hvmc_world.h
 src/stb_image.h
+src/hvmc_solver.h
+src/hvmc_solver.cpp
