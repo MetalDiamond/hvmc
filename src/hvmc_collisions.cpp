@@ -27,10 +27,10 @@ bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &i
 {
     //translation
     vec2 nearest;
-    vec2 clamp_box=box->collider.dims/2;
+    vec2 clamp_box = box->collider.dims/2;
     vec2 sphere_in_box_world = sphere->position-box->position;
-    nearest.x=clamp(sphere_in_box_world.x,-clamp_box.x,clamp_box.x);
-    nearest.y=clamp(sphere_in_box_world.y,-clamp_box.y,clamp_box.y);
+    nearest.x = clamp(sphere_in_box_world.x,-clamp_box.x,clamp_box.x);
+    nearest.y = clamp(sphere_in_box_world.y,-clamp_box.y,clamp_box.y);
 
     float dist = LengthSquared(sphere_in_box_world-nearest);
     float radius = sphere->collider.radius*sphere->collider.radius;
@@ -40,6 +40,13 @@ bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &i
         float realDist = sqrt(dist);
         //info.intersection = (box->position + nearest) + (sphere_in_box_world*(realDist-sphere->collider.radius)/realDist)/2;
         info.type = SPHERE_TO_BOX;
+
+        // Side of box collision
+        if(abs(nearest.x) < abs(nearest.y))
+            info.boxSideCol = SIDE_EDGE;
+        else
+            info.boxSideCol = UPPER_EGDE;
+
         return true;
     }
     else

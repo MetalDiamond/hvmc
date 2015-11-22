@@ -138,7 +138,25 @@ void PhysicsSystem::Update( f32 dt )
 
                 if (Collisions::Collide(a, b, colInfo))
                 {
+                    if (colInfo.type == SPHERE_TO_SPHERE) {
 
+                        //TODO
+                        // Calcul d'angle sortant selon l'angle incident
+
+                    } else if (colInfo.type == SPHERE_TO_BOX) {
+
+                        //TODO
+                        // Problème de stabilité (:lawl: coincé dans les murs)
+                        // Fonctionne seulement avec les murs kinématics
+                        // Abstraction pour que a soit tjrs la sphere et b la box
+                        if (colInfo.boxSideCol == SIDE_EDGE)
+                            b->velocity.x = b->velocity.x * -0.8;
+                        else
+                            b->velocity.y = b->velocity.y * -0.8;
+
+                    } else if (colInfo.type == BOX_TO_BOX) {
+                        //lawl
+                    }
                 }
             }
         }
