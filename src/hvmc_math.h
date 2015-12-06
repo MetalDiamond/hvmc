@@ -57,6 +57,12 @@ inline vec2 operator+( vec2 const& v, vec2 const& w )
     return result;
 }
 
+inline vec2 operator+( vec2 const& v, float f)
+{
+    vec2 result{ v.x + f, v.y + f };
+    return result;
+}
+
 inline vec2 operator+=( vec2 & v, vec2 const& w )
 {
     v = v + w;

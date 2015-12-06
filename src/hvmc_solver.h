@@ -26,13 +26,6 @@ public:
     float C();
 };
 
-class SphereToSphereConstraint : public Constraint
-{
-public:
-    SphereToSphereConstraint(RigidBody* sphere1, RigidBody* sphere2);
-    virtual float C();
-};
-
 class Solver
 {
 private:
@@ -43,6 +36,31 @@ public:
     void resolve(std::vector<RigidBody *>&  rigidBodies, int nbiteration, float deltaT);
     void pushConstraint(Constraint * Contrainte);
     void clear();
+};
+
+// contraintes :
+
+class SphereToSphereConstraint : public Constraint
+{
+public:
+    SphereToSphereConstraint(int sphere1, int sphere2);
+    float C();
+};
+
+class BoxToBoxConstraint : public Constraint
+{
+public:
+    BoxToBoxConstraint(int box1, int box2);
+    float C();
+};
+
+class BoxToSphereConstraint : public Constraint
+{
+    RigidBody* b;
+    RigidBody* s;
+public:
+    BoxToSphereConstraint(int box, int sphere);
+    float C();
 };
 
 #endif // SOLVER_H

@@ -56,8 +56,8 @@ bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &i
 bool Collisions::boxToBox(RigidBody *box1, RigidBody *box2, CollisionInfo &info)
 {
     vec2 diff = box1->position - box2->position;
-    if(abs(diff.x) < (box1->collider.dims.x + box2->collider.dims.y)/2
-            && abs(diff.y) < (box1->collider.dims.y + box2->collider.dims.y)/2)
+    if(fabs(diff.x) < (box1->collider.dims.x + box2->collider.dims.x)/2
+            && fabs(diff.y) < (box1->collider.dims.y + box2->collider.dims.y)/2)
     {
         info.type = BOX_TO_BOX;
         return true;
