@@ -105,6 +105,12 @@ inline f32 Length( vec2 const& v )
     return result;
 }
 
+inline f32 Length( vec3 const& v )
+{
+    f32 result = sqrt( v.x * v.x + v.y * v.y + v.z * v.z );
+    return result;
+}
+
 inline f32 LengthSquared( vec2 const& v )
 {
     f32 result = v.x * v.x + v.y * v.y;

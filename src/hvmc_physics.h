@@ -4,6 +4,7 @@
 #include <vector>
 #include "hvmc_math.h"
 #include "hvmc_collisions.h"
+#include "hvmc_solver.h"
 
 enum RigidBodyType
 {
@@ -76,6 +77,7 @@ struct PhysicsSystem
 
     std::vector<RigidBody*> rigidBodies;
     vec2 gravity;
+    Solver system;
 };
 
 #endif

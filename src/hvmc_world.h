@@ -18,6 +18,7 @@ struct Entity
 
 struct World
 {
+
     bool Init( SDL_Renderer* renderer );
     void SetupScene();
     

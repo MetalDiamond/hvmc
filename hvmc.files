@@ -8,10 +8,10 @@ src/hvmc_graphics.h
 src/hvmc_math.h
 src/hvmc_physics.cpp
 src/hvmc_physics.h
+src/hvmc_solver.cpp
+src/hvmc_solver.h
 src/hvmc_utils.cpp
 src/hvmc_utils.h
 src/hvmc_world.cpp
 src/hvmc_world.h
 src/stb_image.h
-src/hvmc_solver.h
-src/hvmc_solver.cpp

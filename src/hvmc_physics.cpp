@@ -41,7 +41,6 @@ void RigidBody::SetKinematic()
 bool PhysicsSystem::Init()
 {
     gravity = vec2{ 0.f, -9.81f };
-
     return true;
 }
 
@@ -126,6 +125,7 @@ void PhysicsSystem::Update( f32 dt )
         a->position = World::GraphicsToPhysicsPos(pos);
     }
 
+
     for (unsigned int i=0; i<rigidBodies.size()-1; ++i)
     {
         for(unsigned int j=i+1; j<rigidBodies.size(); ++j)
@@ -161,6 +161,8 @@ void PhysicsSystem::Update( f32 dt )
             }
         }
     }
+
+    system.resolve(rigidBodies,5,dt);
 
     for(RigidBody* body : rigidBodies)
     {
