@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+// petit espace à laisser entre les objets pour éviter les intersections intempestives
+#define SAFE_GAP 0.01f
+
 void Solver::pushConstraint(Constraint *contrainte){
     contraintes.push_back(contrainte);
 }
@@ -52,12 +55,46 @@ vec3 Constraint::getGradient(RigidBody* body)
     return gradient / epsilon;
 }
 
-SphereToSphereConstraint::SphereToSphereConstraint(RigidBody* sphere1, RigidBody* sphere2)
-{
-    // TODO
-}
+// ---- CONTRAINTE SPHERE-SPHERE ----
+
+SphereToSphereConstraint::SphereToSphereConstraint(RigidBody* sphere1, RigidBody* sphere2) :
+    s1(sphere1), s2(sphere2) {}
 
 float SphereToSphereConstraint::C()
 {
-    return 0.5;
+    float dist = s1->collider.radius + s2->collider.radius + SAFE_GAP;
+    return LengthSquared(s1->position - s2->position) - dist*dist;
+}
+
+// ---- CONTRAINTE BOX-BOX ----
+
+BoxToBoxConstraint::BoxToBoxConstraint(RigidBody* box1, RigidBody* box2) :
+    b1(box1), b2(box2) {}
+
+float BoxToBoxConstraint::C()
+{
+    vec2 diff = b1->position - b2->position;
+    vec2 dims = (b1->collider.dims + b2->collider.dims)/2 + SAFE_GAP;
+    float h = fabs(diff.x) - dims.x;
+    float v = fabs(diff.y) - dims.y;
+    if(h<0 || v<0)
+        return fmax(h, v);
+    else
+        return fmin(h, v);
+}
+
+// ---- CONTRAINTE BOX-SPHERE ----
+
+BoxToSphereConstraint::BoxToSphereConstraint(RigidBody* box, RigidBody* sphere) :
+    b(box), s(sphere) {}
+
+float BoxToSphereConstraint::C()
+{
+    vec2 nearest;
+    vec2 clamp_box = b->collider.dims/2 + SAFE_GAP;
+    vec2 sphere_in_box_world = s->position - b->position;
+    nearest = Max(Min(sphere_in_box_world, clamp_box), -clamp_box);
+    float dist = LengthSquared(sphere_in_box_world-nearest);
+    float radius = s->collider.radius*s->collider.radius;
+    return dist - radius;
 }
