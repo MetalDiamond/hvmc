@@ -140,8 +140,18 @@ void PhysicsSystem::Update( f32 dt )
                 {
                     if (colInfo.type == SPHERE_TO_SPHERE) {
 
-                        //TODO
+                        /*deltaAB = a->velocity - b->velocity;
+                        deltaBA = b->velocity - a->velocity;*/
+
                         // Calcul d'angle sortant selon l'angle incident
+                        vec2 impA = (a->velocity - 2.0 * Dot(colInfo.normal, a->velocity) * colInfo.normal) * 0.8;
+                        vec2 impB = (b->velocity - 2.0 * Dot(colInfo.normal, b->velocity) * colInfo.normal) * 0.8;
+
+                        a->velocity = impA;
+                        b->velocity = impB;
+
+                        /*a->ApplyImpulse(colInfo.normal * Length(a->velocity), colInfo.intersection);
+                        b->ApplyImpulse(colInfo.normal * Length(b->velocity), colInfo.intersection);*/
 
                     } else if (colInfo.type == SPHERE_TO_BOX) {
 

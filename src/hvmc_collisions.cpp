@@ -70,8 +70,13 @@ bool Collisions::sphereToSphere(RigidBody *sphere1, RigidBody *sphere2, Collisio
     float dist = sphere1->collider.radius + sphere2->collider.radius;
     if(LengthSquared(sphere1->position - sphere2->position) < dist*dist)
     {
-        //info.intersection = (sphere1->position - sphere2->position)
+        vec2 pos1 = sphere1->position;
+        vec2 pos2 = sphere2->position;
+
+        info.intersection = vec2 {(pos1.x-pos2.x / 2), (pos1.y-pos2.y / 2)};
+        info.normal = Normalize(pos1 - pos2);
         info.type = SPHERE_TO_SPHERE;
+
         return true;
     }
     else

@@ -12,7 +12,8 @@ struct CollisionInfo
 {
     int type;
     int boxSideCol;
-    //vec2 intersection; // impact position
+    vec2 intersection; //impact position
+    vec2 normal;
     // etc ...
 };
 
