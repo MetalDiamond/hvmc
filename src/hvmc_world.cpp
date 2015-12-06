@@ -60,16 +60,6 @@ bool World::Init( SDL_Renderer* renderer )
         return false;
     }
 
-    for(int i=0;i<5;i++){
-        //no memory leak possible
-        Constraint * newConstraint = new ArbitraryBox(i);
-        physics->system.pushConstraint(newConstraint);
-        vec2 pos;
-        pos.x=100+i*3/2*100;
-        pos.y=100+i*100;
-        AddBall(pos);
-    }
-
     return true;
 }
 

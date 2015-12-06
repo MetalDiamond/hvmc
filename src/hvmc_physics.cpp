@@ -139,6 +139,7 @@ void PhysicsSystem::Update( f32 dt )
                 if (Collisions::Collide(a, b, colInfo))
                 {
                     if (colInfo.type == SPHERE_TO_SPHERE) {
+                        system.pushConstraint(new SphereToSphereConstraint(i, j));
 
                         /*deltaAB = a->velocity - b->velocity;
                         deltaBA = b->velocity - a->velocity;*/
@@ -154,6 +155,10 @@ void PhysicsSystem::Update( f32 dt )
                         b->ApplyImpulse(colInfo.normal * Length(b->velocity), colInfo.intersection);*/
 
                     } else if (colInfo.type == SPHERE_TO_BOX) {
+                        if(b->collider.type == RIGID_BODY_SPHERE)
+                            system.pushConstraint(new BoxToSphereConstraint(i, j));
+                        else
+                            system.pushConstraint(new BoxToSphereConstraint(j, i));
 
                         //TODO
                         // Problème de stabilité (:lawl: coincé dans les murs)
@@ -165,7 +170,7 @@ void PhysicsSystem::Update( f32 dt )
                             b->velocity.y = b->velocity.y * -0.8;
 
                     } else if (colInfo.type == BOX_TO_BOX) {
-                        //lawl
+                        system.pushConstraint(new BoxToBoxConstraint(i, j));
                     }
                 }
             }
@@ -173,6 +178,7 @@ void PhysicsSystem::Update( f32 dt )
     }
 
     system.resolve(rigidBodies,5,dt);
+    system.clear();
 
     for(RigidBody* body : rigidBodies)
     {
