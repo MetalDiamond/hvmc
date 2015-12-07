@@ -14,10 +14,10 @@ void RigidBody::ApplyForce( vec2 const& f )
 void RigidBody::ApplyImpulse( vec2 const& impulse, vec2 const& contactVector )
 {
     if(collider.type == RIGID_BODY_BOX)
-        velocity += impulse/im;
+        velocity += impulse;
     else
     {
-        velocity += impulse/im;//*intensity;
+        velocity += impulse;//*intensity;
         angularVelocity -= 0.3*Length(impulse)*Cross(contactVector-position, impulse);
     }
 }
@@ -133,15 +133,9 @@ void PhysicsSystem::Update( f32 dt )
 
                 if (Collisions::Collide(a, b, colInfo))
                 {
-
-
+                    // Génération de contraintes
                     if (colInfo.type == SPHERE_TO_SPHERE) {
                         system.pushConstraint(new SphereToSphereConstraint(i, j));
-
-                        // Calcul d'angle sortant selon l'angle incident
-                        a->ApplyImpulse(colInfo.normal * 2, colInfo.intersection);
-                        b->ApplyImpulse(-colInfo.normal * 2, colInfo.intersection);
-
 
                     } else if (colInfo.type == SPHERE_TO_BOX) {
                         if(b->collider.type == RIGID_BODY_SPHERE)
@@ -149,28 +143,24 @@ void PhysicsSystem::Update( f32 dt )
                         else
                             system.pushConstraint(new BoxToSphereConstraint(j, i));
 
-                        //TODO
-                        // Problème de stabilité (:lawl: coincé dans les murs)
-                        // Fonctionne seulement avec les murs kinématics
-                        // Abstraction pour que a soit tjrs la sphere et b la box
-                        if (colInfo.boxSideCol == SIDE_EDGE)
-                            b->velocity.x = b->velocity.x * -0.8;
-                        else
-                            b->velocity.y = b->velocity.y * -0.8;
-
                     } else if (colInfo.type == BOX_TO_BOX) {
                         system.pushConstraint(new BoxToBoxConstraint(i, j));
                     }
 
-                    float ea = Length(a->velocity) + fabs(a->angularVelocity);
-                    float eb = Length(b->velocity) + fabs(b->angularVelocity);
-                    float ratio = Dot(colInfo.normal, Normalize(a->velocity - b->velocity));
-                    //a->ApplyImpulse(colInfo.normal*(ea+eb)*ratio, colInfo.intersection);
+                    // Réaction générique quelle que soit le collider
+                    const float damping = 0.8f;
+                    float diff = Length(a->velocity - b->velocity)*damping;
+
+                    if(a->im > 0)
+                        a->ApplyImpulse(diff * colInfo.normal, colInfo.intersection);
+                    if(b->im > 0)
+                        b->ApplyImpulse(-diff * colInfo.normal, colInfo.intersection);
                 }
             }
         }
     }
 
+    // Résolution du système
     system.resolve(rigidBodies,5,dt);
     system.clear();
 

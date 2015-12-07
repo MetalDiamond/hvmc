@@ -39,7 +39,7 @@ bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &i
     {
         float realDist = sqrt(dist);
         info.intersection = (box->position + nearest) + (sphere_in_box_world*(realDist-sphere->collider.radius)/realDist)/2;
-        info.normal = Normalize(box->position - sphere->position);
+        info.normal = Normalize(nearest - sphere_in_box_world);
         info.type = SPHERE_TO_BOX;
 
         // Side of box collision
@@ -57,9 +57,15 @@ bool Collisions::sphereToBox(RigidBody *sphere, RigidBody *box, CollisionInfo &i
 bool Collisions::boxToBox(RigidBody *box1, RigidBody *box2, CollisionInfo &info)
 {
     vec2 diff = box1->position - box2->position;
-    if(fabs(diff.x) < (box1->collider.dims.x + box2->collider.dims.x)/2
-            && fabs(diff.y) < (box1->collider.dims.y + box2->collider.dims.y)/2)
+    float diffx = fabs(diff.x) - (box1->collider.dims.x + box2->collider.dims.x)/2;
+    float diffy = fabs(diff.y) - (box1->collider.dims.y + box2->collider.dims.y)/2;
+    if(diffx < 0 && diffy < 0)
     {
+        info.intersection = (box1->position + box2->position)/2;
+        if(diffx > diffy)
+            info.normal = {box1->position.x < box2->position.x ? -1 : 1, 0};
+        else
+            info.normal = {0, box1->position.y < box2->position.y ? -1 : 1};
         info.type = BOX_TO_BOX;
         return true;
     }
