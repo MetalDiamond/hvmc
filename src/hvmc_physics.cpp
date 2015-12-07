@@ -88,6 +88,10 @@ RigidBody* PhysicsSystem::AddWall( vec2 const& pos, vec2 const& dims )
     RigidBody* body = new RigidBody;
 
     body->im = 0.f;
+    body->forces = { 0.f, 0.f };
+    body->torque = 0.f;
+    body->velocity = { 0.f, 0.f };
+    body->angularVelocity = 0.0f;
     body->position = pos;
 
     body->collider.type = RIGID_BODY_BOX;
@@ -103,23 +107,6 @@ void PhysicsSystem::Update( f32 dt )
     {
         body->ApplyForce(body->im * gravity);
     }
-
-    //Gestion des bords
-    for (unsigned int i=0; i<rigidBodies.size(); i++) {
-
-        //DEBUG reset pos
-        RigidBody *a = rigidBodies[i];
-
-        vec2 pos = World::PhysicsToGraphicsPos(a->position);
-
-        // loop
-
-        pos.x -= 800 * floor(pos.x / 800);
-        pos.y -= 600 * floor(pos.y / 600);
-
-        a->position = World::GraphicsToPhysicsPos(pos);
-    }
-
 
     for (unsigned int i=0; i<rigidBodies.size()-1; ++i)
     {
@@ -168,6 +155,22 @@ void PhysicsSystem::Update( f32 dt )
     {
         body->IntegrateForces(dt);
         body->IntegrateVelocities(dt);
+    }
+
+    //Gestion des bords
+    for (unsigned int i=0; i<rigidBodies.size(); i++) {
+
+        //DEBUG reset pos
+        RigidBody *a = rigidBodies[i];
+
+        vec2 pos = World::PhysicsToGraphicsPos(a->position);
+
+        // loop
+
+        pos.x -= 800 * floor(pos.x / 800);
+        pos.y -= 600 * floor(pos.y / 600);
+
+        a->position = World::GraphicsToPhysicsPos(pos);
     }
 }
 
