@@ -13,12 +13,13 @@ void RigidBody::ApplyForce( vec2 const& f )
 
 void RigidBody::ApplyImpulse( vec2 const& impulse, vec2 const& contactVector )
 {
-    vec2 rayon = contactVector-position;
-    //vec2 local = Normalize(rayon);
-    //f32 intensity = Cross(local,impulse);
-
-    velocity += impulse;//*intensity;
-    angularVelocity += Cross(impulse, rayon);
+    if(collider.type == RIGID_BODY_BOX)
+        velocity += impulse/im;
+    else
+    {
+        velocity += impulse/im;//*intensity;
+        angularVelocity -= 0.3*Length(impulse)*Cross(contactVector-position, impulse);
+    }
 }
 
 void RigidBody::IntegrateVelocities(f32 dt) {
@@ -132,6 +133,8 @@ void PhysicsSystem::Update( f32 dt )
 
                 if (Collisions::Collide(a, b, colInfo))
                 {
+
+
                     if (colInfo.type == SPHERE_TO_SPHERE) {
                         system.pushConstraint(new SphereToSphereConstraint(i, j));
 
@@ -166,6 +169,11 @@ void PhysicsSystem::Update( f32 dt )
                     } else if (colInfo.type == BOX_TO_BOX) {
                         system.pushConstraint(new BoxToBoxConstraint(i, j));
                     }
+
+                    float ea = Length(a->velocity) + fabs(a->angularVelocity);
+                    float eb = Length(b->velocity) + fabs(b->angularVelocity);
+                    float ratio = Dot(colInfo.normal, Normalize(a->velocity - b->velocity));
+                    //a->ApplyImpulse(colInfo.normal*(ea+eb)*ratio, colInfo.intersection);
                 }
             }
         }

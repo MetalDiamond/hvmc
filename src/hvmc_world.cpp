@@ -192,7 +192,7 @@ void World::ThrowBall( vec2 const& pos )
 
     entity.graphics = graphics->AddSphere( gpos, grad );
     entity.physics = physics->AddSphere( ppos, prad );
-    entity.physics->ApplyImpulse( { 25.f, 10.f }, { 50.f, 10.f } );
+    entity.physics->ApplyImpulse( { 25.f, 10.f }, ppos + prad );
 
     entities.push_back( entity );
 }
