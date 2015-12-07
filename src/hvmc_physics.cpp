@@ -113,14 +113,8 @@ void PhysicsSystem::Update( f32 dt )
 
         // loop
 
-        while(pos.x > 800.f)
-            pos.x -= 800.f;
-        while(pos.y > 600.f)
-            pos.y -= 600.f;
-        while(pos.x < 0.f)
-            pos.x += 800.f;
-        while(pos.y < 0.f)
-            pos.y += 600.f;
+        pos.x -= 800 * floor(pos.x / 800);
+        pos.y -= 600 * floor(pos.y / 600);
 
         a->position = World::GraphicsToPhysicsPos(pos);
     }
