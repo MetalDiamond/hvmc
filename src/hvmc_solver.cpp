@@ -47,14 +47,14 @@ void Solver::resolve(std::vector<RigidBody *>& rigidBodies, int nbiteration, flo
             //mise à jour de la vélocité en fonction du déplacement imposé
             //fait n'importe quoi si le déplacement est trop grand...
             // c'est les impulsions calculées par fabien qui doivent faire ça
-            /*rigid->velocity.x+=newdst.x/dt;
+            rigid->velocity.x+=newdst.x/dt;
             rigid->velocity.y+=newdst.y/dt;
-            rigid->angularVelocity+=newdst.z/dt;*/
+            //rigid->angularVelocity+=newdst.z/dt;
 
             //mise à jour de la position
             rigid->position.x+=newdst.x;
             rigid->position.y+=newdst.y;
-            rigid->rotation+=newdst.z;
+            //rigid->rotation+=newdst.z;
         }
     }
 }

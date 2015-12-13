@@ -18,7 +18,7 @@ void RigidBody::ApplyImpulse( vec2 const& impulse, vec2 const& contactVector )
     else
     {
         velocity += impulse;//*intensity;
-        angularVelocity -= 0.3*Length(impulse)*Cross(contactVector-position, impulse);
+        //angularVelocity -= 0.3*Length(impulse)*Cross(contactVector-position, impulse);
     }
 }
 
@@ -138,10 +138,10 @@ void PhysicsSystem::Update( f32 dt )
                     const float damping = 0.8f;
                     float diff = Length(a->velocity - b->velocity)*damping;
 
-                    if(a->im > 0)
+                    /*if(a->im > 0)
                         a->ApplyImpulse(diff * colInfo.normal, colInfo.intersection);
                     if(b->im > 0)
-                        b->ApplyImpulse(-diff * colInfo.normal, colInfo.intersection);
+                        b->ApplyImpulse(-diff * colInfo.normal, colInfo.intersection);*/
                 }
             }
         }
